@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+    web:
+        build: .
+        command: gunicorn --timeout 1000 --workers 1 --threads 4 -b :8080 app:app
+        volumes:
+            - .:/app/
+        ports:
+            - 8080:8080

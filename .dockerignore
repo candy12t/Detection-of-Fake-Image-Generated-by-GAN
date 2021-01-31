@@ -1,0 +1,8 @@
+**/.DS_Store
+**/*.pyc
+**/__pycache__/
+.git/
+celeba_man/fake/
+celeba_man/original/
+docs/
+venv/
