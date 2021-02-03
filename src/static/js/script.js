@@ -1,35 +1,29 @@
-const previewFile = (file) => {
-  const preview = document.getElementById("preview");
-  const reader = new FileReader();
+const preview = document.getElementById("preview");
+const fileInput = document.getElementById("input_image");
 
-  reader.onload = (e) => {
-    const imgeUrl = e.target.result;
-    const img = document.createElement("img");
-    img.id = "preview_image"
-    img.src = imgeUrl;
-    preview.appendChild(img);
+const handleFileSelect = () => {
+  if(preview.childElementCount) {
+    const child = preview.childNodes[0];
+    preview.removeChild(child);
   }
+  const result = document.getElementById("result");
+  if(result && result.textContent) {
+    result.textContent = "";
+  }
+  const files = fileInput.files;
+  previewFile(files[0]);
+}
 
+const previewFile = (file) => {
+  const img = document.createElement("img");
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    img.id = "preview_image";
+    img.src = e.target.result;
+    localStorage.setItem("imgData", img.src);
+  }
+  preview.appendChild(img);
   reader.readAsDataURL(file);
 }
 
-const fileInput = document.getElementById("input_image");
-const handleFileSelect = () => {
-  const files = fileInput.files
-  previewFile(files[0])
-}
-
-const removeResult = () => {
-  const result = document.getElementById("result");
-  result.textContent = "";
-}
-
-const removeImage = () => {
-  const preview = document.getElementById("preview");
-  const preview_iamge = document.getElementById("preview_image");
-  preview.removeChild(preview_iamge);
-}
-
-fileInput.addEventListener("change", handleFileSelect, false);
-fileInput.addEventListener("click", removeResult, false)
-fileInput.addEventListener("change", removeImage, false);
+fileInput.addEventListener("change", handleFileSelect);

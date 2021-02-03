@@ -16,6 +16,7 @@
 		</form>
 		<div id="preview"></div>
 		{% if predict %}
+			<script src="static/js/output_image.js"></script>
 			<p id="result"><b>{{ proba }}</b> %の確率で{{ predict }}</p>
 		{% endif %}
 	</div>
