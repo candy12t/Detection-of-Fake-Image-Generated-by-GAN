@@ -25,8 +25,8 @@ RANDOM_STATE = 2525
 
 class Classification(object):
 
-    def __init__(self, dataset_lists, feature='edge_hist',
-                 learning_model='dnn', output_every_scores=True,
+    def __init__(self, dataset_lists, feature="edge_hist",
+                 learning_model="dnn", output_every_scores=True,
                  save_model=False, output_failed_data=False):
         self.feature = feature
         self.learning_model = learning_model
@@ -47,7 +47,7 @@ class Classification(object):
 
         # 学習テストし, 結果を出力
         accuracy, recall, cm = self.train_and_test(**params)
-        self._output_scores(accuracy, recall, cm, mode='all')
+        self._output_scores(accuracy, recall, cm, mode="all")
 
         # 分類に失敗した(不正解)データを出力
         if self.output_failed_data:
@@ -56,7 +56,6 @@ class Classification(object):
     # 学習, テスト
     def train_and_test(self, **params):
 
-        self.learning_model == 'svm'
         y_test_list, y_pred_list = [], []
 
         for train_index, test_index in self.skf.split(self.X, self.y):
@@ -67,9 +66,9 @@ class Classification(object):
             z_test = self.z[test_index]
 
             # 分類器
-            if self.learning_model == 'dnn':
+            if self.learning_model == "dnn":
                 self.model = MLPClassifier(**params)
-            elif self.learning_model == 'svm':
+            elif self.learning_model == "svm":
                 self.model = SVC(**params)
             self.model.fit(X_train, y_train)  # 学習
 
@@ -82,7 +81,7 @@ class Classification(object):
             # 学習毎に正解率, 検出率, 混同行列を算出, 出力
             if self.output_every_scores:
                 accuracy, recall, cm = self._calculate_scores(y_test, y_pred)
-                self._output_scores(accuracy, recall, cm, mode='every')
+                self._output_scores(accuracy, recall, cm, mode="every")
 
             # 学習済みモデルを保存
             if self.save_model:
@@ -103,9 +102,9 @@ class Classification(object):
 
     # 正解率, 検出率, 混同行列を出力
     def _output_scores(self, accuracy, recall, cm, mode):
-        if mode == 'every':
+        if mode == "every":
             print(f"{'='*20} {self.i}/{SPLITS} {'='*20}")
-        elif mode == 'all':
+        elif mode == "all":
             print(f"{'='*20} all {'='*20}")
         print(f"accuracy: {accuracy*100} %")
         print(f"recall: {recall*100} %")
@@ -119,9 +118,9 @@ class Classification(object):
 
     # 学習済みモデルを保存
     def _save_model(self):
-        dt = datetime.now().strftime('%Y%m%d%H%M')
+        dt = datetime.now().strftime("%Y%m%d%H%M")
         save_path = f"./../model/{self.learning_model}_{dt}_{self.i}.pickle"
-        with open(save_path, mode='wb') as f:
+        with open(save_path, mode="wb") as f:
             pickle.dump(self.model, f)
 
     # 分類に失敗した(不正解)のデータを記録

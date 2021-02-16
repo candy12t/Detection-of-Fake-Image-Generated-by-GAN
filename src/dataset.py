@@ -7,14 +7,14 @@ import feature_extraction as fe
 
 def get_nearly_real_fake_dataset_lists():
     dataset_lists = [
-        '../celeba_man/real_500.txt',
-        '../celeba_man/nearly_real_fake_500.txt',
+        "../celeba_man/real_500.txt",
+        "../celeba_man/nearly_real_fake_500.txt",
     ]
     return dataset_lists
 
 
 # 画像を読み込んで特徴量を抽出して数値化
-def load_dataset(dataset_lists, feature='edge_hist'):
+def load_dataset(dataset_lists, feature="edge_hist"):
     data, labels, filenames = [], [], []
 
     for dataset_list in dataset_lists:
@@ -35,7 +35,7 @@ def load_dataset(dataset_lists, feature='edge_hist'):
 
 # *.txtに書かれた画像のパスを`\n`を削除してリストに格納
 def _read_dataset_list(text_path):
-    with open(text_path, mode='r', encoding='utf_8') as f:
+    with open(text_path, mode="r", encoding="utf_8") as f:
         img_path_list = [s.strip() for s in f.readlines()]
         return img_path_list
 

@@ -15,13 +15,13 @@ def predict_image(img):
 
     proba = proba[0][predict[0]] * 100
     proba = round(proba, 2)
-    predict = '偽物' if predict[0] == 0 else '本物'
+    predict = "偽物" if predict[0] == 0 else "本物"
     return predict, proba
 
 
 def _load_model():
-    model = './../model/dnn_202101301141_2.pickle'
-    with open(model, mode='rb') as fp:
+    model = "./../model/dnn_202101301141_2.pickle"
+    with open(model, mode="rb") as fp:
         loaded_model = pickle.load(fp)
     return loaded_model
 
@@ -35,8 +35,8 @@ def _load_image(img):
     return X
 
 
-if __name__ == '__main__':
-    img = '../celeba_man/fake/9992_split.jpg'
+if __name__ == "__main__":
+    img = "../celeba_man/fake/9992_split.jpg"
     predict, proba = predict_image(img)
     print(predict)
     print(proba)

@@ -12,16 +12,16 @@ RANGE = (0, 256)
 
 
 # matplolibを日本語に対応
-mpl.style.use('default')
-rcParams['font.family'] = 'sans-serif'
-rcParams['font.sans-serif'] = [
-    'Hiragino Maru Gothic Pro',
-    'Yu Gothic',
-    'Meirio',
-    'Takao',
-    'IPAexGothic',
-    'IPAPGothic',
-    'Noto Sans CJK JP',
+mpl.style.use("default")
+rcParams["font.family"] = "sans-serif"
+rcParams["font.sans-serif"] = [
+    "Hiragino Maru Gothic Pro",
+    "Yu Gothic",
+    "Meirio",
+    "Takao",
+    "IPAexGothic",
+    "IPAPGothic",
+    "Noto Sans CJK JP",
 ]
 
 
@@ -68,7 +68,7 @@ def resize_img(input_img, size=64):
 
 def get_filename_without_extension(f):
     """
-    f = '../celeba_man/fake/9992_split.jpg
+    f = '../celeba_man/fake/9992_split.jpg'
     get_file_number(f) -> '9992_split'
     """
     return Path(f).stem
@@ -77,18 +77,18 @@ def get_filename_without_extension(f):
 def main(input_path, mode):
     path = Path(input_path)
     if path.is_dir():
-        for f in path.glob('*.jpg'):
+        for f in path.glob("*.jpg"):
             _save_processed_img(f)
     else:
         _save_processed_img(path)
 
 
 def _save_processed_img(f):
-    if mode == 'histogram':
+    if mode == "histogram":
         _save_histogram_img(f)
-    elif mode == 'edge':
+    elif mode == "edge":
         _save_edge_img(f)
-    elif mode == 'resize':
+    elif mode == "resize":
         _save_resize_img(f)
 
 
@@ -99,14 +99,14 @@ def _save_histogram_img(input_img):
 
     ax = plt.subplot()
     ax.hist(img.reshape(-1), bins=NUM_BINS, rwidth=RWIDTH, range=RANGE)
-    ax.set_xlabel('輝度値')
-    ax.set_ylabel('輝度の出現回数')
+    ax.set_xlabel("輝度値")
+    ax.set_ylabel("輝度の出現回数")
     plt.savefig(f"./histogram_{filename_without_ext}.png")
     plt.close()
 
 
 def _save_edge_img(input_img):
-    img = Image.open(input_img).convert('L')
+    img = Image.open(input_img).convert("L")
     img = np.array(img).astype(float)
     filename_without_ext = get_filename_without_extension(input_img)
 
@@ -121,13 +121,13 @@ def _save_resize_img(input_img, size=64):
     img.save(f"./resize_{size}x{size}_{filename_without_ext}.jpg", quality=95)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('-i', '--input_path', type=str,
-                        required=True, help='input image path')
-    parser.add_argument('-m', '--mode', default='histogram',
-                        type=str, choices=['histogram', 'edge', 'resize'],
+    parser.add_argument("-i", "--input_path", type=str,
+                        required=True, help="input image path")
+    parser.add_argument("-m", "--mode", default="histogram",
+                        type=str, choices=["histogram", "edge", "resize"],
                         help="""
                              select image process model
                              {'histogram','edge','resize'},

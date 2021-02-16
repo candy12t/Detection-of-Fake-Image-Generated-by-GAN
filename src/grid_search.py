@@ -4,7 +4,7 @@ from classification import Classification
 RANDOM_STATE = 2525
 # SVMパラメーター
 PARAMS = [0.001, 0.01, 0.1, 1, 10, 100]
-DECISION_FUNCTION_SHAPE = 'ovo'
+DECISION_FUNCTION_SHAPE = "ovo"
 # DNNパラメーター
 HIDDEN_LAYER_SIZES = (1024, 512, 256, 128)
 ALPHA = [0.001, 0.01, 0.1]
@@ -13,8 +13,8 @@ MAX_ITER = 3000
 
 class GridSearch(object):
 
-    def __init__(self, dataset_lists, feature='edge_hist',
-                 learning_model='dnn', score_type='all'):
+    def __init__(self, dataset_lists, feature="edge_hist",
+                 learning_model="dnn", score_type="all"):
         self.feature = feature
         self.learning_model = learning_model
         self.score_type = score_type
@@ -31,19 +31,19 @@ class GridSearch(object):
               f"model: {self.learning_model}, "
               f"score_type: {self.score_type} {'='*10}")
 
-        if self.learning_model == 'dnn':
+        if self.learning_model == "dnn":
             self._dnn_grid_search()
-        elif self.learning_model == 'svm':
+        elif self.learning_model == "svm":
             self._svm_grid_search()
         self._output_best_scores()
 
     def _dnn_grid_search(self):
         for alpha in ALPHA:
             self.params = {
-                'hidden_layer_sizes': HIDDEN_LAYER_SIZES,
-                'alpha': alpha,
-                'max_iter': MAX_ITER,
-                'random_state': RANDOM_STATE
+                "hidden_layer_sizes": HIDDEN_LAYER_SIZES,
+                "alpha": alpha,
+                "max_iter": MAX_ITER,
+                "random_state": RANDOM_STATE,
             }
             self.grid_search()
 
@@ -51,19 +51,19 @@ class GridSearch(object):
         for c in PARAMS:
             for gamma in PARAMS:
                 self.params = {
-                    'C': c,
-                    'gamma': gamma,
-                    'decision_function_shape': DECISION_FUNCTION_SHAPE,
-                    'random_state': RANDOM_STATE
+                    "C": c,
+                    "gamma": gamma,
+                    "decision_function_shape": DECISION_FUNCTION_SHAPE,
+                    "random_state": RANDOM_STATE,
                 }
                 self.grid_search()
 
     def grid_search(self):
         self.accuracy, self.recall, self.confusion_matrix = \
                 self.clf.train_and_test(**self.params)
-        if self.score_type == 'all':
+        if self.score_type == "all":
             self._update_best_scores()
-        elif self.score_type == 'fake':
+        elif self.score_type == "fake":
             self._update_best_fake_scores()
 
     # 正解率を重視
@@ -89,15 +89,15 @@ class GridSearch(object):
         print(self.best_confusion_matrix)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
-    parser.add_argument('-m', '--model', default='dnn', type=str,
-                        choices=['dnn', 'svm'],
+    parser.add_argument("-m", "--model", default="dnn", type=str,
+                        choices=["dnn", "svm"],
                         help="select leaning model {'dnn','svm'}, \
                               default='dnn'")
-    parser.add_argument('-s', '--score_type', default='all', type=str,
-                        choices=['all', 'fake'],
+    parser.add_argument("-s", "--score_type", default="all", type=str,
+                        choices=["all", "fake"],
                         help="select score type {'all','fake'}, \
                               default='all'")
     args = parser.parse_args()
